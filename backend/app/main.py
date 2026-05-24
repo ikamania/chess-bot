@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.engine import router as engine_router
+from app.api.game import router as engine_router
 
 app = FastAPI()
 
