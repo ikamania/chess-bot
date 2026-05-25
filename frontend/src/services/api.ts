@@ -9,6 +9,15 @@ export async function getState() {
 
 
 export async function makeMove(move: string) {
+  const response = await fetch(`${API_URL}/move`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ move }),
+  })
+
+  return response.json()
 }
 
 
