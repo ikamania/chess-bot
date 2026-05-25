@@ -10,7 +10,7 @@ class MoveRequest(BaseModel):
 
 @router.get("/state")
 def state():
-    pass
+    return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 
 @router.post("/move")
