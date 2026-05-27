@@ -1,4 +1,4 @@
-const PIECES_ASSET_PATH = "/pieces/"
+import Piece from "./Piece"
 
 
 type Props = {
@@ -15,7 +15,7 @@ export default function Square({ isDark, piece }: Props) {
       }`}
     >
       {piece && (
-        <img src={`${PIECES_ASSET_PATH}${piece}.png`} className="w-8/9 h-8/9" />
+        <Piece piece={piece} />
       )}
     </div>
   )
