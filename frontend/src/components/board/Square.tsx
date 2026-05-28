@@ -1,9 +1,11 @@
 import Piece from "./Piece"
+import type { Piece as PieceType } from "../../engine/board"
+
 
 
 type Props = {
   isDark: boolean
-  piece: string | null
+  piece: PieceType
   onPointerDown: () => void
   onPointerUp: () => void
 }
