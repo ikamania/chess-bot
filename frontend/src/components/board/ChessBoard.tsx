@@ -5,64 +5,30 @@ import Square from "./Square"
 import Piece from "./Piece"
 import type { Board } from "./board"
 import { movePiece } from "../../engine/move"
+import { useChessDrag } from "../../hooks/useChessDrag"
 
-
-type Dragging = {
-  row: number
-  col: number
-  piece: string
-  x: number
-  y: number
-} | null
 
 
 export default function ChessBoard() {
   const { state, move } = useGame()
 
-  const [dragging, setDragging] = useState<Dragging>(null)
+  const board = state?.fen ? parseFEN(state.fen) : null
 
+  const {
+    dragging,
+    onPointerDown,
+    onPointerMove,
+    onPointerUp,
+    cancelDrag,
+  } = useChessDrag(board)
 
-  function handlePointerDown(e: React.PointerEvent, row: number, col: number, piece: string | null) {
-    if (!piece) return
-
-    setDragging({
-      row,
-      col,
-      piece,
-      x: e.clientX,
-      y: e.clientY
-    })
-  }
-
-  function handlePointerMove(e: React.PointerEvent) {
-    if (!dragging) return
-
-    setDragging({
-      ...dragging,
-      x: e.clientX,
-      y: e.clientY,
-    })
-  }
-
-  function handlePointerUp(board: Board, row: number, col: number) {
-    if (!dragging) return
-
-    // calculate square with mouse coordinates
-
-    movePiece(board, [row, col], [row, col])
-
-    setDragging(null)
-  }
-
-  if (!state) return null
-
-  const board: Board = parseFEN(state)
+  if (!board) return null
 
   return (
     <div 
       className={`w-fit border select-none relative ${dragging ? "cursor-grabbing" : " "}`}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={() => setDragging(null)}
+      onPointerMove={onPointerMove}
+      onPointerLeave={cancelDrag}
     >
       {board.map((row, r) => (
         <div key={r} className="flex">
@@ -76,8 +42,8 @@ export default function ChessBoard() {
                 key={`${r}-${c}`}
                 isDark={isDark}
                 piece={hidden ? null : piece}
-                onPointerDown={(e) => handlePointerDown(e, r, c, piece)}
-                onPointerUp={() => handlePointerUp(r, c)}
+                onPointerDown={(e) => onPointerDown(e, r, c, piece)}
+                onPointerUp={() => onPointerUp(r, c)}
               />
             );
           })}
