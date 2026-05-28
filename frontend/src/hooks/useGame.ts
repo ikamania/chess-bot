@@ -2,8 +2,14 @@ import { useEffect, useState } from "react"
 import { getState, makeMove, resetGame } from "../services/api"
 
 
+type GameState = {
+  fen: string
+  yourColor: "white" | "black"
+}
+
+
 export function useGame() {
-  const [state, setState] = useState<any>(null)
+  const [state, setState] = useState<GameState | null>(null)
 
   useEffect(() => {
     load()
