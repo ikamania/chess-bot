@@ -3,6 +3,8 @@ import { useGame } from "../../hooks/useGame"
 import { parseFEN } from "../../utils/fen"
 import Square from "./Square"
 import Piece from "./Piece"
+import type { Board } from "./board"
+import { movePiece } from "../../engine/move"
 
 
 type Dragging = {
@@ -22,7 +24,7 @@ export default function ChessBoard() {
 
   function handlePointerDown(e: React.PointerEvent, row: number, col: number, piece: string | null) {
     if (!piece) return
-    
+
     setDragging({
       row,
       col,
@@ -42,15 +44,19 @@ export default function ChessBoard() {
     })
   }
 
-  function handlePointerUp(row: number, col: number) {
+  function handlePointerUp(board: Board, row: number, col: number) {
     if (!dragging) return
-    
+
+    // calculate square with mouse coordinates
+
+    movePiece(board, [row, col], [row, col])
+
     setDragging(null)
   }
 
   if (!state) return null
 
-  const board = parseFEN(state)
+  const board: Board = parseFEN(state)
 
   return (
     <div 
