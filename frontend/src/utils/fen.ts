@@ -1,4 +1,7 @@
-export function parseFEN(fen: string): string[][] {
+import type { Board } from "../engine/board"
+
+
+export function parseFEN(fen: string): Board{
   const boardPart = fen.split(" ")[0]
   const boardRows = boardPart.split("/")
 
