@@ -10,7 +10,10 @@ class MoveRequest(BaseModel):
 
 @router.get("/state")
 def state():
-    return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    return {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "yourColor": "white"
+    }
 
 
 @router.post("/move")
