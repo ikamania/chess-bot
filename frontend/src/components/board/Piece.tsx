@@ -6,6 +6,6 @@ type Props = {
 
 export default function Piece({ piece }: Props) {
   return (
-    <img src={`${PIECES_ASSET_PATH}${piece}.png`} className="w-8/9 h-8/9 select-none pointer-events-none" />
+    <img src={`${PIECES_ASSET_PATH}${piece}.png`} className="w-[5rem] h-[5rem] select-none cursor-grab" />
   )
 }
