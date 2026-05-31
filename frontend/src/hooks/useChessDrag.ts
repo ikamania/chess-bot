@@ -1,5 +1,5 @@
 import { useState } from "react"
-import type { Board } from "../components/ChessBoard/board"
+import type { Board } from "../engine/board"
 import { movePiece } from "../engine/move"
 
 
