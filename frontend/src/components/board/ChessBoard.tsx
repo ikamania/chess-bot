@@ -6,10 +6,11 @@ import { useChessDrag } from "../../hooks/useChessDrag"
 
 type Props = {
   board: Board
+  orientation: "white" | "black"
 }
 
 
-export default function ChessBoard({ board }: Props) {
+export default function ChessBoard({ board, orientation }: Props) {
   const {
     dragging,
     onPointerDown,
@@ -22,24 +23,30 @@ export default function ChessBoard({ board }: Props) {
 
   return (
     <div
-      className={`w-fit border select-none relative ${dragging ? "cursor-grabbing" : " "}`}
+      className={`w-fit border select-none relative ${dragging ? "cursor-grabbing" : ""}`}
       onPointerMove={onPointerMove}
       onPointerLeave={cancelDrag}
     >
-      {board.map((row, r) => (
+      {board.map((_, r) => (
         <div key={r} className="flex">
-          {row.map((piece, c) => {
-            const isDark = (r + c) % 2 === 1;
+          {board.map((_, c) => {
+            const viewR = orientation === "white" ? r : 7 - r
+            const viewC = orientation === "white" ? c : 7 - c
+            const piece = board[viewR][viewC]
 
-            const hidden = dragging && dragging.row === r && dragging.col === c
+            const isDark = (viewR + viewC) % 2 === 1;
+
+            const hidden =
+              dragging?.row === viewR &&
+              dragging?.col === viewC
 
             return (
               <Square
                 key={`${r}-${c}`}
                 isDark={isDark}
                 piece={hidden ? null : piece}
-                onPointerDown={(e) => onPointerDown(e, r, c, piece)}
-                onPointerUp={() => onPointerUp(r, c)}
+                onPointerDown={(e) => onPointerDown(e, viewR, viewC, piece)}
+                onPointerUp={() => onPointerUp(viewR, viewC)}
               />
             );
           })}
