@@ -1,19 +1,15 @@
-import { useState } from "react"
-import { useGame } from "../../hooks/useGame"
-import { parseFEN } from "../../utils/fen"
+import type { Board } from "../../engine/board"
 import Square from "./Square"
 import Piece from "./Piece"
-import type { Board } from "./board"
-import { movePiece } from "../../engine/move"
 import { useChessDrag } from "../../hooks/useChessDrag"
 
 
+type Props = {
+  board: Board
+}
 
-export default function ChessBoard() {
-  const { state, move } = useGame()
 
-  const board = state?.fen ? parseFEN(state.fen) : null
-
+export default function ChessBoard({ board }: Props) {
   const {
     dragging,
     onPointerDown,
@@ -25,7 +21,7 @@ export default function ChessBoard() {
   if (!board) return null
 
   return (
-    <div 
+    <div
       className={`w-fit border select-none relative ${dragging ? "cursor-grabbing" : " "}`}
       onPointerMove={onPointerMove}
       onPointerLeave={cancelDrag}
@@ -35,7 +31,7 @@ export default function ChessBoard() {
           {row.map((piece, c) => {
             const isDark = (r + c) % 2 === 1;
 
-            const hidden = dragging && dragging.row === r && dragging.col == c
+            const hidden = dragging && dragging.row === r && dragging.col === c
 
             return (
               <Square
