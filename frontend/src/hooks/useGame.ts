@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { getState, makeMove, resetGame } from "../services/api"
+import { parseFEN } from "../utils/fen.ts"
+import type { Board } from "../engine/board"
 
 
 type GameState = {
@@ -15,13 +17,15 @@ export function useGame() {
     load()
   }, [])
 
+  const board: Board | null = state?.fen ? parseFEN(state.fen) : null
+
   async function load() {
     const data = await getState()
     setState(data)
   }
 
-  async function move(move: string) {
-    const data = await makeMove(move)
+  async function playMove(uci: string) {
+    const data = await makeMove(uci)
     setState(data.state)
   }
 
@@ -32,7 +36,8 @@ export function useGame() {
 
   return {
     state,
-    move,
+    board,
+    playMove,
     reset,
   }
 }
