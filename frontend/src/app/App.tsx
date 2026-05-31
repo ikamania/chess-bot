@@ -3,13 +3,13 @@ import { useGame } from "../hooks/useGame"
 
 
 function App() {
-  const { board } = useGame()
+  const { board, state } = useGame()
 
-  if (!board) return "No board provided"
+  if (!board || !state) return "No board provided"
 
   return (
     <div className="pt-[2rem] pl-[2rem]">
-      <ChessBoard board={board} />
+      <ChessBoard board={board} orientation={state.yourColor}/>
     </div>
   )
 }
