@@ -6,7 +6,7 @@ import type { Piece as PieceType } from "../../engine/board"
 type Props = {
   isDark: boolean
   piece: PieceType
-  onPointerDown: () => void
+  onPointerDown: (e: React.PointerEvent) => void
   onPointerUp: () => void
 }
 
